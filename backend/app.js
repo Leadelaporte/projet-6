@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(helmet());
 
 
-mongoose.connect('mongodb+srv://lea1:lea1@cluster0.rx0z68w.mongodb.net/?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://leatest:leatest@piiquante.ag3yfxi.mongodb.net/?retryWrites=true&w=majority',
     { useNewUrlParser: true,
     useUnifiedTopology: true })
     .then(() =>console.log('Connexion à MongoDB réussie !'))

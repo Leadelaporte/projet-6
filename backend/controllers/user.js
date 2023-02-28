@@ -26,6 +26,7 @@ exports.signup = (req, res, next) => {
 
 /* Fonction de connexion */
 exports.login = (req, res, next) => {
+    console.log("Je passe ldans le login");
     User.findOne({ email: req.body.email })
         .then(user => {
             // Vérification de l'email utilisateur
@@ -33,6 +34,8 @@ exports.login = (req, res, next) => {
                 return res.status(401).json({ error: 'Utilisateur inconnu'});
             } else {
             // Vérification du mot de passe
+            console.log(req.body.password);
+            console.log(user.password);
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     if(!valid) {
@@ -41,7 +44,7 @@ exports.login = (req, res, next) => {
                         // Si ok validation de la connexion et attribution d'un token d'authentifcation
                         let token = jwt.sign(
                             {userId: user._id},
-                            process.env.SECRET_TOKEN,
+                            'RANDOM_LEA_DE_1996',
                             { expiresIn: '24h' }                        
                         );
                         res.status(200).json({
@@ -50,8 +53,15 @@ exports.login = (req, res, next) => {
                         });
                     }
                 })
-                .catch(error => res.status(500).json({ error }));
+                .catch(function (error) { 
+                    console.log("bcrypt");
+                    console.log(error);
+                    return res.status(500).json({ err: error });
+                });
             };
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(function (error) { 
+            console.log(error);
+            return res.status(500).json({ err: error });
+        });
 };
